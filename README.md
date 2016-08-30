@@ -43,3 +43,37 @@ if Reachability.isConnectedToNetwork() == true {
 }
 
 ```
+
+
+How to get it done using ALAMOFIRE
+
+
+```swift
+import SystemConfiguration
+import Alamofire
+
+func networkListener() {
+        let net = NetworkReachabilityManager()
+        net?.startListening()
+
+        net?.listener = {status in
+
+            if  net?.isReachable ?? false {
+
+                if ((net?.isReachableOnEthernetOrWiFi) != nil) {
+                    //Do something here...
+                } else if(net?.isReachableOnWWAN)! {
+                    //Do something here...
+                }
+
+            } else {
+                let alertController = UIAlertController(title: "No Internet Connection", message: "Make sure your device is connected to the internet.", preferredStyle: .alert)
+
+                let defaultAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
+                alertController.addAction(defaultAction)
+
+                self.present(alertController, animated: true, completion: nil)
+            }
+        }
+    }
+```
